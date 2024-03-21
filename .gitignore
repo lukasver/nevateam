@@ -1,0 +1,54 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# testing
+coverage
+
+# next.js
+.next/
+out/
+build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+
+# turbo
+.turbo
+.next
+.contentlayer
+
+playwright-report
+test-results
+
+#env secrets
+.env*.local
+.env*.test
+.env*
+
+# tsbuildinfo
+tsconfig.tsbuildinfo
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+keys
+cache/aidocs/data/*
+cache/aidocs/cache/*
+!cache/aidocs/data/
+!cache/aidocs/cache/
+
+documentation
