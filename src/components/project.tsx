@@ -1,6 +1,6 @@
 'use client';
 import { Project as ProjectSchema } from '@/types/projects';
-import { Box, Button, Stack, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Stack, SxProps, useMediaQuery, useTheme } from '@mui/material';
 import { useRef, useState } from 'react';
 import { Subtitle, Title } from './ui/typography';
 import { ShareProjectButton } from './ui/share-button';
@@ -18,6 +18,7 @@ import {
 } from './project/sections';
 import Image from 'next/image';
 import TeaserModal from './document-viewer';
+import InvestComponent from './project/invest';
 
 interface ProjectProps {
   project: ProjectSchema;
@@ -25,8 +26,6 @@ interface ProjectProps {
 
 const Project = (props: ProjectProps) => {
   const project = props.project.masterProject;
-
-  const investRef = useRef<HTMLDivElement>();
 
   const [openModal, setOpenModal] = useState<string | null>(null);
 
@@ -49,6 +48,7 @@ const Project = (props: ProjectProps) => {
     <>
       <Stack spacing={2} id={'project-data-column'}>
         <Stack spacing={2}>
+          {isMobile ? <PoweredBy /> : null}
           <Box>
             <Box
               sx={{
@@ -126,24 +126,6 @@ const Project = (props: ProjectProps) => {
                 alt='profile'
               />
             </Box>
-            {isMobile && (
-              <Box sx={{ margin: '0.5rem auto' }}>
-                <Button
-                  variant={'contained'}
-                  color={'primary'}
-                  sx={{ display: 'flex', gap: '.5rem' }}
-                  fullWidth
-                  onClick={() =>
-                    investRef?.current?.scrollIntoView({
-                      behavior: 'smooth',
-                      block: 'center',
-                    })
-                  }
-                >
-                  Invest in this project
-                </Button>
-              </Box>
-            )}
           </Box>
         </Stack>
         {isMobile ? (
@@ -181,30 +163,23 @@ const Project = (props: ProjectProps) => {
           spacing={2}
           sx={{ position: 'sticky', top: '2rem', maxHeight: 'fit-content' }}
         >
-          <Box
-            sx={{
-              position: 'relative',
-              height: '64px',
-              width: '100%',
-            }}
-          >
-            <Image
-              className='rounded-xl'
-              alt={'Smat logo'}
-              src={require('/public/assets/poweredby.png')}
-              style={{
-                objectFit: 'cover', // cover, contain, none
-              }}
-              fill
-            />
-          </Box>
           {!isMobile ? (
-            <ProjectDetailsActionsSection
+            <>
+              <PoweredBy />
+
+              <ProjectDetailsActionsSection
+                project={project}
+                details={details}
+                handleViewDocument={handleViewDocument}
+              />
+            </>
+          ) : (
+            <InvestComponent
               project={project}
               details={details}
-              handleViewDocument={handleViewDocument}
+              handleViewDocument={() => {}}
             />
-          ) : null}
+          )}
         </Stack>
       </Box>
       <TeaserModal
@@ -213,6 +188,29 @@ const Project = (props: ProjectProps) => {
         onClose={() => setOpenModal(null)}
       />
     </>
+  );
+};
+
+const PoweredBy = ({ sx }: { sx?: SxProps }) => {
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        height: '64px',
+        width: '100%',
+        ...sx,
+      }}
+    >
+      <Image
+        className='rounded-xl'
+        alt={'Smat logo'}
+        src={require('/public/assets/poweredby.png')}
+        style={{
+          objectFit: 'cover', // cover, contain, none
+        }}
+        fill
+      />
+    </Box>
   );
 };
 

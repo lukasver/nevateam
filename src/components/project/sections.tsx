@@ -36,7 +36,7 @@ import {
   showFormattedNames,
 } from '@/lib/client/utils';
 import { PercentBar } from './percent-bar';
-import { useToggle } from '@/lib/client/hooks';
+import { useMediaQuery, useToggle } from '@/lib/client/hooks';
 import { getProjectPath } from '@/lib/project-path';
 import { getProjectJsonFieldsAsArray } from '@/lib/projects';
 import { Briefcase, BusinessPlan, ChartBar, FileIcon, Mail } from '../icons';
@@ -63,10 +63,11 @@ export interface ProjectDetailsActionsSectionProps {
 export const ProjectDetailsActionsSection = (
   props: ProjectDetailsActionsSectionProps
 ) => {
+  const isMobile = useMediaQuery('sm');
   return (
     <>
       <OverviewProject {...props} />
-      <InvestComponent {...props} />
+      {isMobile ? null : <InvestComponent {...props} />}
     </>
   );
 };

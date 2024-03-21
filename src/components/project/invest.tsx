@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormValues, formValues } from '@/types/projects';
 import { sendInvestmentRequest } from '@/lib/server/actions';
-import { watch } from 'fs';
 import currencyJs from 'currency.js';
 import { fireErrorToast, onInvalid } from '@/lib/client/utils';
 
@@ -54,6 +53,7 @@ function InvestComponent({ project }: ProjectDetailsActionsSectionProps) {
         <Stack spacing={1}>
           {INPUTS.map(({ name, label, type }) => (
             <TextField
+              key={name}
               label={label}
               {...register(name, {
                 onChange:
