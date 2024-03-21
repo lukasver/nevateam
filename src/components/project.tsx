@@ -39,7 +39,6 @@ const Project = (props: ProjectProps) => {
   const handleViewDocument = (doc: typeof openModal) => {
     if (doc) {
       let url = doc?.split('/public/')[1] ?? doc;
-      console.debug('🚀 ~ url:', url);
       setOpenModal(url);
     }
   };

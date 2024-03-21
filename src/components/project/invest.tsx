@@ -1,15 +1,25 @@
 import React from 'react';
 import { ProjectDetailsActionsSectionProps } from './sections';
-import { Box, Button, Card, Divider, Stack, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CircularProgress,
+  Divider,
+  Stack,
+  TextField,
+} from '@mui/material';
 import { Paragraph, Title } from '../ui/typography';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormValues, formValues } from '@/types/projects';
-import { sendInvestmentRequest } from '@/lib/server/actions';
 import currencyJs from 'currency.js';
 import { fireErrorToast, onInvalid } from '@/lib/client/utils';
+import { toast } from 'sonner';
+import { useToggle } from '@/lib/client/hooks';
 
 function InvestComponent({ project }: ProjectDetailsActionsSectionProps) {
+  const { on, toggle } = useToggle();
   const {
     register,
     handleSubmit,
@@ -28,8 +38,27 @@ function InvestComponent({ project }: ProjectDetailsActionsSectionProps) {
       return fireErrorToast('Form status is invalid');
     }
     console.debug('🚀 ~ data:', data);
-    const res = await sendInvestmentRequest(data);
-    console.debug('🚀 ~ res:', res);
+    try {
+      toggle(true);
+      const response = await fetch('/api/emails/send', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((r) => r.json());
+      if (!response.success) {
+        throw new Error('Failed to send email');
+      }
+      toast('Contact sent 🎉!', {
+        description: 'We will get back to you in no time!',
+      });
+    } catch (e: unknown) {
+      console.log('Error', e);
+      fireErrorToast(e);
+    } finally {
+      toggle(false);
+    }
   };
 
   return (
@@ -73,9 +102,10 @@ function InvestComponent({ project }: ProjectDetailsActionsSectionProps) {
               type={type}
             />
           ))}
-          <Box sx={{ display: 'flex', gap: '.5rem' }}>
+          <Box sx={{ display: 'flex', gap: '.5rem', width: '100%' }}>
             <TextField
               disabled
+              fullWidth
               label={'Amount'}
               {...register('value')}
               size={'small'}
@@ -90,6 +120,7 @@ function InvestComponent({ project }: ProjectDetailsActionsSectionProps) {
             />
             <TextField
               disabled
+              fullWidth
               label={'Currency'}
               size={'small'}
               InputProps={{
@@ -106,8 +137,9 @@ function InvestComponent({ project }: ProjectDetailsActionsSectionProps) {
           fullWidth
           variant={'contained'}
           color={'primary'}
+          disabled={on}
         >
-          Submit
+          {on ? <CircularProgress size={25} /> : 'Submit'}
         </Button>
       </Stack>
     </Card>

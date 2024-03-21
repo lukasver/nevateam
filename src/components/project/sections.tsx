@@ -497,6 +497,31 @@ export const Documents = ({ project, onViewDocument }: SectionProps) => {
           alignItems: 'center',
         }}
       >
+        <Tooltip title={`Download ${title}`}>
+          <a
+            target='_blank'
+            rel='noopener noreferrer'
+            href={(() => {
+              const url = document?.split('/public/')[1] ?? document;
+              return `${process.env.NEXT_PUBLIC_DOMAIN}/${url}`;
+            })()}
+            download
+          >
+            <IconButton
+              sx={{
+                boxShadow: 1,
+                height: 30,
+                width: 30,
+                bgcolor: 'common.blackish',
+                borderRadius: '4px',
+                color: 'text.primary',
+              }}
+            >
+              <PreviewIcon color={'inherit'} />
+            </IconButton>
+          </a>
+        </Tooltip>
+
         <Tooltip title={`View ${title}`}>
           <IconButton
             sx={{

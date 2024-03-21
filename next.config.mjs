@@ -51,6 +51,11 @@ const nextConfig = {
   },
   // Use Rust base compiler 7x faster https://nextjs.org/docs/messages/swc-minify-enabled
   swcMinify: true,
+  env: {
+    NEXT_PUBLIC_VERCEL_URL: `${
+      process.env.NOE_ENV === 'development' ? 'http://' : 'https://'
+    }${process.env.VERCEL_URL}`,
+  },
 };
 
 export default nextConfig;
