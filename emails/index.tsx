@@ -34,7 +34,14 @@ export const Email = (formData: formValues) => {
     >
       <Html>
         <Head />
-        <Preview>Investment request received</Preview>
+        <Preview>
+          Investment request received from {name} for{' '}
+          {new Intl.NumberFormat('CH', {
+            style: 'currency',
+            currency: currency,
+            maximumFractionDigits: 0,
+          }).format(Number(value))}
+        </Preview>
         <Body style={main}>
           <Container>
             <Section>
