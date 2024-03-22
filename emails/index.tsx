@@ -58,10 +58,12 @@ export const Email = (formData: formValues) => {
                   </Text>
                   <Text>
                     <b>Amount of units: </b>
-                    {amount}
+                    {new Intl.NumberFormat('CH', {
+                      maximumFractionDigits: 0,
+                    }).format(Number(amount))}
                   </Text>
                   <Text>
-                    <b>Amount to pay: </b>
+                    <b>Amount willing to invest: </b>
                     {new Intl.NumberFormat('CH', {
                       style: 'currency',
                       currency: currency,
@@ -72,10 +74,11 @@ export const Email = (formData: formValues) => {
               </Row>
               <Row>
                 <Column colSpan={2}>
-                  <Link href={`mailto:${email}`}>
-                    <Button className='px-4 py-2 bg-brand text-white rounded-md shadow cursor-pointer'>
-                      Reply now
-                    </Button>
+                  <Link
+                    className='px-4 py-2 bg-brand text-white rounded-md shadow cursor-pointer'
+                    href={`mailto:${email}`}
+                  >
+                    Reply now
                   </Link>
                 </Column>
               </Row>
