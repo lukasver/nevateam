@@ -75,7 +75,7 @@ export const Email = (formData: formValues) => {
               <Row>
                 <Column colSpan={2}>
                   <Link
-                    className='px-4 py-2 bg-brand text-white rounded-md shadow cursor-pointer'
+                    className='px-4 py-2 bg-brand text-white rounded-md shadow cursor-pointer mb-4'
                     href={`mailto:${email}`}
                   >
                     Reply now
