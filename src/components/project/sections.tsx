@@ -19,15 +19,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import {
-  ForwardedRef,
-  MouseEvent,
-  ReactElement,
-  ReactNode,
-  forwardRef,
-} from 'react';
+import { MouseEvent, ReactElement, ReactNode } from 'react';
 import { Paragraph, Title as TitleParagraph } from '../ui/typography';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 
 import {
   formatNumToIntlString,
@@ -517,7 +512,7 @@ export const Documents = ({ project, onViewDocument }: SectionProps) => {
                 color: 'text.primary',
               }}
             >
-              <PreviewIcon color={'inherit'} />
+              <SystemUpdateAltIcon color={'inherit'} />
             </IconButton>
           </a>
         </Tooltip>
